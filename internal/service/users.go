@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -72,10 +71,6 @@ func (s *UsersService) SignUp(ctx context.Context, input UserSignUpInput) error 
 	}
 
 	if err := s.repo.Create(ctx, user); err != nil {
-		if errors.Is(err, domain.ErrUserAlreadyExists) {
-			return err
-		}
-
 		return err
 	}
 
@@ -96,10 +91,6 @@ func (s *UsersService) SignIn(ctx context.Context, input UserSignInInput) (Token
 
 	user, err := s.repo.GetByCredentials(ctx, input.Email, passwordHash)
 	if err != nil {
-		if errors.Is(err, domain.ErrUserNotFound) {
-			return Tokens{}, err
-		}
-
 		return Tokens{}, err
 	}
 
@@ -118,10 +109,6 @@ func (s *UsersService) RefreshTokens(ctx context.Context, refreshToken string) (
 func (s *UsersService) Verify(ctx context.Context, userId primitive.ObjectID, hash string) error {
 	err := s.repo.Verify(ctx, userId, hash)
 	if err != nil {
-		if errors.Is(err, domain.ErrVerificationCodeInvalid) {
-			return err
-		}
-
 		return err
 	}
 

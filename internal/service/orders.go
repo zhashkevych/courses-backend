@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/zhashkevych/creatly-backend/internal/domain"
@@ -38,10 +37,6 @@ func NewOrdersService(repo repository.Orders, offersService Offers, promoCodesSe
 func (s *OrdersService) Create(ctx context.Context, studentId, offerId, promocodeId primitive.ObjectID) (string, error) { //nolint:funlen
 	offer, err := s.offersService.GetById(ctx, offerId)
 	if err != nil {
-		if errors.Is(err, domain.ErrOfferNotFound) {
-			return "", err
-		}
-
 		return "", err
 	}
 
@@ -52,10 +47,6 @@ func (s *OrdersService) Create(ctx context.Context, studentId, offerId, promocod
 
 	student, err := s.studentsService.GetById(ctx, studentId)
 	if err != nil {
-		if errors.Is(err, domain.ErrUserNotFound) {
-			return "", err
-		}
-
 		return "", err
 	}
 

@@ -540,6 +540,7 @@ func TestHandler_studentSignUp(t *testing.T) {
 						Domains: []string{"localhost"},
 					},
 				})
+				c.Set(domainCtx, "localhost")
 			}, handler.studentSignUp)
 
 			// Create Request

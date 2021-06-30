@@ -18,6 +18,7 @@ const (
 	adminCtx   = "adminId"
 	userCtx    = "userId"
 	schoolCtx  = "school"
+	domainCtx  = "domain"
 )
 
 func (h *Handler) setSchoolFromRequest(c *gin.Context) {
@@ -32,6 +33,7 @@ func (h *Handler) setSchoolFromRequest(c *gin.Context) {
 	}
 
 	c.Set(schoolCtx, school)
+	c.Set(domainCtx, host)
 }
 
 func parseRequestHost(c *gin.Context) string {
@@ -132,4 +134,18 @@ func getIdByContext(c *gin.Context, context string) (primitive.ObjectID, error) 
 	}
 
 	return id, nil
+}
+
+func getDomainFromContext(c *gin.Context) (string, error) {
+	val, ex := c.Get(domainCtx)
+	if !ex {
+		return "", errors.New("domainCtx not found")
+	}
+
+	valStr, ok := val.(string)
+	if !ok {
+		return "", errors.New("domainCtx is of invalid type")
+	}
+
+	return valStr, nil
 }

@@ -22,7 +22,7 @@ var (
 			},
 		},
 		Settings: domain.Settings{
-			Domains: []string{"http://localhost:1337", ""},
+			Domains: []string{"http://localhost:1337", "workshop.zhashkevych.com", ""},
 		},
 	}
 

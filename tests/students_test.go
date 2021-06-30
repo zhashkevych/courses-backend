@@ -43,11 +43,12 @@ func (s *APITestSuite) TestStudentSignUp() {
 		Subject: "Спасибо за регистрацию, Test Student!",
 		Body: fmt.Sprintf(`<h1>Спасибо за регистрацию!</h1>
 <br>
-<p>Чтобы подтвердить свой аккаунт, <a href="http://localhost:1337/verification?code=%s">переходи по ссылке</a>.</p>`, verificationCode),
+<p>Чтобы подтвердить свой аккаунт, <a href="https://workshop.zhashkevych.com/verification?code=%s">переходи по ссылке</a>.</p>`, verificationCode),
 	}).Return(nil)
 
 	req, _ := http.NewRequest("POST", "/api/v1/students/sign-up", bytes.NewBuffer([]byte(signUpData)))
 	req.Header.Set("Content-type", "application/json")
+	req.Header.Set("Referer", "https://workshop.zhashkevych.com/")
 
 	resp := httptest.NewRecorder()
 	router.ServeHTTP(resp, req)
